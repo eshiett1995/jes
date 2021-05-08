@@ -5,6 +5,7 @@ class KeySchedule<T> (var key : String){
 
     fun convert(){
         var hexList = swapForHexValue()
+        arrangeAndPushToScheduler(hexList)
     }
     private fun swapForHexValue() : MutableList<String>{
         val subbedHexArray = mutableListOf<String>()
@@ -30,7 +31,11 @@ class KeySchedule<T> (var key : String){
         return Constants.hexMatrix[indexOfRow][indexOfColumn]
     }
 
-    private fun arrangeAndPushToScheduler(){
-
+    private fun arrangeAndPushToScheduler(hexList: List<String>){
+        var tempList = mutableListOf<String>()
+        for((index,hex) in hexList.withIndex()){
+            tempList.add(hex)
+            if(index ==)
+        }
     }
 }
