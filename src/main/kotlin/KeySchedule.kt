@@ -11,7 +11,13 @@ class KeySchedule<T> (var key : String){
     }
 
     private fun makeNextSchedule(){
-        //scheduler.keys.
+        val array = scheduler[scheduler.keys.last()]
+        arrayListOf(
+            array?.get(0)?.get(4)!!,
+            array[1][4],
+            array[2][4],
+            array[3][4]
+        )
     }
 
     private fun swapForHexValue() : MutableList<String>{
