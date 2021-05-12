@@ -20,6 +20,10 @@ class KeySchedule<T> (var key : String){
         )
         val shiftedLastColumn = ArrayShifter<String>().shiftArray(lastColumn)
         val subbedHexArray = swapHexForHexValue(shiftedLastColumn)
+        for (index in 0..3){
+            //Todo this is when xor comes in.
+            lastScheduledArray[index][0]
+        }
     }
 
     private fun swapHexForHexValue(array: ArrayList<String>) : MutableList<String>{
