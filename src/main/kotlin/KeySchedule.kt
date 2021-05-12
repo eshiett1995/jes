@@ -11,14 +11,24 @@ class KeySchedule<T> (var key : String){
     }
 
     private fun makeNextSchedule(){
-        val array = scheduler[scheduler.keys.last()]
+        val lastScheduledArray = scheduler[scheduler.keys.last()]
         val lastColumn = arrayListOf(
-            array?.get(0)?.get(4)!!,
-            array[1][4],
-            array[2][4],
-            array[3][4]
+            lastScheduledArray?.get(0)?.get(4)!!,
+            lastScheduledArray[1][4],
+            lastScheduledArray[2][4],
+            lastScheduledArray[3][4]
         )
         val shiftedLastColumn = ArrayShifter<String>().shiftArray(lastColumn)
+        val subbedHexArray = swapHexForHexValue(shiftedLastColumn)
+    }
+
+    private fun swapHexForHexValue(array: ArrayList<String>) : MutableList<String>{
+        val subbedHexArray = arrayListOf<String>()
+        for (oldHex in array){
+            val newHex = hexSub(oldHex[0].toString(), oldHex[1].toString())
+            subbedHexArray.add(newHex)
+        }
+        return subbedHexArray
     }
 
     private fun swapForHexValue() : MutableList<String>{
