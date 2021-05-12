@@ -13,7 +13,7 @@ class ArrayShifter<T> {
     }
 
     fun shiftArray(array: ArrayList<T>) : ArrayList<T>{
-        val temp = arrayListOf<String>()
+        val temp = array[0]
         for ((index,value) in array.withIndex()){
             if(index != array.size.minus(1)){
                 array[index] = array[index + 1]

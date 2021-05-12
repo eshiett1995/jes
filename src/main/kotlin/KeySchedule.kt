@@ -12,12 +12,13 @@ class KeySchedule<T> (var key : String){
 
     private fun makeNextSchedule(){
         val array = scheduler[scheduler.keys.last()]
-        arrayListOf(
+        val lastColumn = arrayListOf(
             array?.get(0)?.get(4)!!,
             array[1][4],
             array[2][4],
             array[3][4]
         )
+        val shiftedLastColumn = ArrayShifter<String>().shiftArray(lastColumn)
     }
 
     private fun swapForHexValue() : MutableList<String>{
