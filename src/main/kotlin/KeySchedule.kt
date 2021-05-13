@@ -1,3 +1,4 @@
+import Constants.Rcon
 import kotlin.properties.Delegates
 
 class KeySchedule<T> (var key : String){
@@ -11,25 +12,38 @@ class KeySchedule<T> (var key : String){
     }
 
     private fun makeNextSchedule(){
+        // gets the last key in the schedule - the schedule is a 4*4 array
         val lastScheduledArray = scheduler[scheduler.keys.last()]
         lastScheduledArray?.get(0)?.get(4)!!
+
+        // get the last column in the schedule
         val lastColumn = arrayListOf(
             lastScheduledArray[0][3],
             lastScheduledArray[1][3],
             lastScheduledArray[2][3],
             lastScheduledArray[3][3]
         )
+        // the values in the column gotten in shifted one place
         val shiftedLastColumn = ArrayShifter<String>().shiftArray(lastColumn)
+        // then the column is hexed
         val subbedHexArray = swapHexForHexValue(shiftedLastColumn)
+
+
         for (index in 0..3){
-            //Todo this is when xor comes in.
+
             val item = lastScheduledArray[index][0]
             val itemDecimal = DataFormatUtil.hexToDecimal(item)
 
             val item2 = subbedHexArray[index]
             val item2Decimal = DataFormatUtil.hexToDecimal(item2)
 
-            val xorDecimal = itemDecimal xor item2Decimal
+            var rConItem = Rcon[index][0]
+            val rConItemDecimal = DataFormatUtil.hexToDecimal(item2)
+
+            val xorDecimal = itemDecimal xor item2Decimal xor rConItemDecimal
+
+            var cc = xorDecimal
+
         }
     }
 

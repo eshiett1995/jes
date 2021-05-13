@@ -17,7 +17,6 @@ class JES(var data : String, var key : String) {
            val charArray = Integer.toHexString(char.toInt()).toCharArray()
            val newHex = hexSub(charArray[0].toString(), charArray[1].toString())
            subbedHexArray.add(newHex)
-           println("${Integer.toHexString(char.toInt())} - $newHex")
        }
        ArrayShifter<String>().shiftArray(subbedHexArray.toTypedArray())
        return ""
