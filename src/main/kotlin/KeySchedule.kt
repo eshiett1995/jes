@@ -29,7 +29,6 @@ class KeySchedule<T> (var key : String){
             val item2Decimal = DataFormatUtil.hexToDecimal(item2)
 
             val xorDecimal = itemDecimal xor item2Decimal
-
         }
     }
 
