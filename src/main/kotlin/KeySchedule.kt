@@ -3,7 +3,7 @@ import kotlin.properties.Delegates
 class KeySchedule<T> (var key : String){
     private var scheduler : HashMap<Int, ArrayList<ArrayList<String>>> = HashMap()
 
-    fun convert(){
+    fun generate(){
         val hexList = swapForHexValue()
         val firstSchedule = arrangeToColumnAndPushToScheduler(hexList)
         scheduler[1] = firstSchedule
@@ -12,11 +12,12 @@ class KeySchedule<T> (var key : String){
 
     private fun makeNextSchedule(){
         val lastScheduledArray = scheduler[scheduler.keys.last()]
+        lastScheduledArray?.get(0)?.get(4)!!
         val lastColumn = arrayListOf(
-            lastScheduledArray?.get(0)?.get(4)!!,
-            lastScheduledArray[1][4],
-            lastScheduledArray[2][4],
-            lastScheduledArray[3][4]
+            lastScheduledArray[0][3],
+            lastScheduledArray[1][3],
+            lastScheduledArray[2][3],
+            lastScheduledArray[3][3]
         )
         val shiftedLastColumn = ArrayShifter<String>().shiftArray(lastColumn)
         val subbedHexArray = swapHexForHexValue(shiftedLastColumn)

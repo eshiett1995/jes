@@ -3,10 +3,14 @@ import kotlin.properties.Delegates
 
 class JES(var data : String, var key : String) {
 
+    init {
+        if(key.length != 16){
+            throw Exception("key must be 16 characters in length")
+        }
+        KeySchedule<String>(key).generate()
+    }
+
     fun encrypt() : String{
-       if(key.length != 11){
-           throw Exception("key must be 16 characters in length")
-       }
 
        val subbedHexArray = mutableListOf<String>()
        for (char in data){
