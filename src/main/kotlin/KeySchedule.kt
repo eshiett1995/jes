@@ -29,6 +29,7 @@ class KeySchedule<T> (var key : String){
         val subbedHexArray = swapHexForHexValue(shiftedLastColumn)
 
 
+        val firstArrayOfScheduler = arrayListOf<String>()
         for (index in 0..3){
 
             val item = lastScheduledArray[index][0]
@@ -37,13 +38,13 @@ class KeySchedule<T> (var key : String){
             val item2 = subbedHexArray[index]
             val item2Decimal = DataFormatUtil.hexToDecimal(item2)
 
-            var rConItem = Rcon[index][0]
-            val rConItemDecimal = DataFormatUtil.hexToDecimal(item2)
+            val rConItem = Rcon[index][0]
+            val rConItemDecimal = DataFormatUtil.hexToDecimal(rConItem)
 
             val xorDecimal = itemDecimal xor item2Decimal xor rConItemDecimal
 
-            var cc = xorDecimal
-
+            val convertedHex = DataFormatUtil.decimalToHex(xorDecimal)
+            firstArrayOfScheduler.add(convertedHex)
         }
     }
 

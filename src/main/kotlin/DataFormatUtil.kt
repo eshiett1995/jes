@@ -13,5 +13,8 @@ class DataFormatUtil {
         fun decimalToBinary(decimal: String) : String{
             return BigInteger(decimal, 16).toString(2)
         }
+        fun decimalToHex(decimal: Int) : String{
+            return Integer.toHexString(decimal)
+        }
     }
 }
