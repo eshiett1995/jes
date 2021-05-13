@@ -22,7 +22,14 @@ class KeySchedule<T> (var key : String){
         val subbedHexArray = swapHexForHexValue(shiftedLastColumn)
         for (index in 0..3){
             //Todo this is when xor comes in.
-            lastScheduledArray[index][0]
+            val item = lastScheduledArray[index][0]
+            val itemDecimal = DataFormatUtil.hexToDecimal(item)
+
+            val item2 = subbedHexArray[index]
+            val item2Decimal = DataFormatUtil.hexToDecimal(item2)
+
+            val xorDecimal = itemDecimal xor item2Decimal
+
         }
     }
 
