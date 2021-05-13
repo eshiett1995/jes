@@ -1,9 +1,14 @@
+import java.lang.Exception
 import kotlin.properties.Delegates
 
 class JES(var data : String, var key : String) {
 
     fun encrypt() : String{
-       var subbedHexArray = mutableListOf<String>()
+       if(key.length != 11){
+           throw Exception("key must be 16 characters in length")
+       }
+
+       val subbedHexArray = mutableListOf<String>()
        for (char in data){
            val charArray = Integer.toHexString(char.toInt()).toCharArray()
            val newHex = hexSub(charArray[0].toString(), charArray[1].toString())
