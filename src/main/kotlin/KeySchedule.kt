@@ -8,7 +8,9 @@ class KeySchedule<T> (var key : String){
         val hexList = swapForHexValue()
         val firstSchedule = arrangeToColumnAndPushToScheduler(hexList)
         scheduler[1] = firstSchedule
-        makeNextSchedule()
+        //for (index in 1..5){
+            makeNextSchedule()
+        //}
     }
 
     private fun makeNextSchedule(){
@@ -65,11 +67,14 @@ class KeySchedule<T> (var key : String){
                 val xorValueAsHex = DataFormatUtil.decimalToHex(xorValue)
                 arrayToBeSavedTo.add(xorValueAsHex)
             }
-            //arranges the array that are in rows to columns
-            val newScheduler = CollectionUtils<String>().arrangeArrayToColumn(
-                firstTempArray,secondTempArray,thirdTempArray,fourthTempArray
-            )
         }
+
+        //arranges the array that are in rows to columns
+        val newSchedule = CollectionUtils<String>().arrangeArrayToColumn(
+            firstTempArray,secondTempArray,thirdTempArray,fourthTempArray
+        )
+        val lastKeyInScheduler : Int = scheduler.keys.last()
+        scheduler[lastKeyInScheduler + 1] = newSchedule
     }
 
     private fun swapHexForHexValue(array: ArrayList<String>) : MutableList<String>{
