@@ -3,7 +3,7 @@ import java.math.BigInteger
 
 
 fun main(args: Array<String>) {
-    JES("this is where it all starts", "aaaaaaaaaaaaaaaa").encrypt()
+    JES("this is where it all starts", "thisissparta1234").encrypt()
 }
 
 

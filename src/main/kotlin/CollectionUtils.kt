@@ -1,4 +1,4 @@
-class ArrayShifter<T> {
+class CollectionUtils<T> {
     fun shiftArray(array: Array<T>) : Array<T>{
         val temp = array[0]
         for ((index,value) in array.withIndex()){

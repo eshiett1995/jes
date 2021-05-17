@@ -12,7 +12,7 @@ class KeySchedule<T> (var key : String){
     }
 
     private fun makeNextSchedule(){
-        // gets the last key in the schedule - the schedule is a 4*4 array
+        // gets the last key, and value in the schedule - the schedule is a 4*4 array
         val lastScheduledArray = scheduler[scheduler.keys.last()]
         lastScheduledArray?.get(0)?.get(3)!!
 
@@ -24,12 +24,16 @@ class KeySchedule<T> (var key : String){
             lastScheduledArray[3][3]
         )
         // the values in the column gotten in shifted one place
-        val shiftedLastColumn = ArrayShifter<String>().shiftArray(lastColumn)
+        val shiftedLastColumn = CollectionUtils<String>().shiftArray(lastColumn)
         // then the column is hexed
         val subbedHexArray = swapHexForHexValue(shiftedLastColumn)
 
         val newScheduler = arrayListOf<ArrayList<String>>()
-        val tempArray = arrayListOf<String>()
+        val firstTempArray = arrayListOf<String>()
+        val secondTempArray = arrayListOf<String>()
+        val thirdTempArray = arrayListOf<String>()
+        val fourthTempArray = arrayListOf<String>()
+
 
         for (index in 0..3){
             val item = lastScheduledArray[index][0]
@@ -44,15 +48,13 @@ class KeySchedule<T> (var key : String){
             val xorDecimal = itemDecimal xor item2Decimal xor rConItemDecimal
 
             val convertedHex = DataFormatUtil.decimalToHex(xorDecimal)
-            tempArray.add(convertedHex)
+            firstTempArray.add(convertedHex)
         }
 
-        newScheduler.add(tempArray)
-
+        // counts from 1 - index 3 because index 0 is already temp
         for(index in 1..3){
-            // clears the arrayList so it can be used again
-            tempArray.clear()
-            val columnOfNewSchedule = newScheduler[1- index]
+            val columnOfNewSchedule = if(index == 1) firstTempArray else if (index == 2) secondTempArray else if(index == 3) thirdTempArray else fourthTempArray
+            val arrayToBeSavedTo = if(index == 1) secondTempArray else if (index == 2) thirdTempArray else fourthTempArray
             val columnOfPreviousSchedule = lastScheduledArray[index]
             for(cellIndex in 0..3){
                 val hexOfNewSchedule = columnOfNewSchedule[index]
@@ -62,11 +64,10 @@ class KeySchedule<T> (var key : String){
                 val hexToDecimalOfPreviousSchedule = DataFormatUtil.hexToDecimal(hexOfNewPrevious)
                 val xorValue = hexToDecimalOfNewSchedule xor hexToDecimalOfPreviousSchedule
                 val xorValueAsHex = DataFormatUtil.decimalToHex(xorValue)
-                tempArray.add(xorValueAsHex)
+                arrayToBeSavedTo.add(xorValueAsHex)
             }
             //todo please note that this saves as a row for now, create a function to fix it
             //adds the temp array as a new column to the scheduler
-            newScheduler.add(tempArray)
         }
     }
 
