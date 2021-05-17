@@ -28,7 +28,6 @@ class KeySchedule<T> (var key : String){
         // then the column is hexed
         val subbedHexArray = swapHexForHexValue(shiftedLastColumn)
 
-        val newScheduler = arrayListOf<ArrayList<String>>()
         val firstTempArray = arrayListOf<String>()
         val secondTempArray = arrayListOf<String>()
         val thirdTempArray = arrayListOf<String>()
@@ -66,8 +65,10 @@ class KeySchedule<T> (var key : String){
                 val xorValueAsHex = DataFormatUtil.decimalToHex(xorValue)
                 arrayToBeSavedTo.add(xorValueAsHex)
             }
-            //todo please note that this saves as a row for now, create a function to fix it
-            //adds the temp array as a new column to the scheduler
+            //arranges the array that are in rows to columns
+            val newScheduler = CollectionUtils<String>().arrangeArrayToColumn(
+                firstTempArray,secondTempArray,thirdTempArray,fourthTempArray
+            )
         }
     }
 
