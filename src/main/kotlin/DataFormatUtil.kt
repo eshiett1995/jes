@@ -14,7 +14,11 @@ class DataFormatUtil {
             return BigInteger(decimal, 16).toString(2)
         }
         fun decimalToHex(decimal: Int) : String{
-            return Integer.toHexString(decimal)
+            var stringToReturn = Integer.toHexString(decimal)
+            if(stringToReturn.length == 1){
+               stringToReturn = "0$stringToReturn"
+            }
+            return stringToReturn
         }
     }
 }
