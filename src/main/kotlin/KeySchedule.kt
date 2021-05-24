@@ -2,13 +2,16 @@ import Constants.Rcon
 import kotlin.properties.Delegates
 
 class KeySchedule<T> (var key : String){
-    private var scheduler : HashMap<Int, ArrayList<ArrayList<String>>> = HashMap()
+
+    companion object{
+        var scheduler : HashMap<Int, ArrayList<ArrayList<String>>> = HashMap()
+    }
 
     fun generate(){
         val hexList = swapForHexValue()
         val firstSchedule = arrangeToColumnAndPushToScheduler(hexList)
         scheduler[1] = firstSchedule
-        for (index in 1..3){
+        for (index in 1..9){
             makeNextSchedule()
         }
     }
