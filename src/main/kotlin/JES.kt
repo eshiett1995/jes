@@ -21,25 +21,30 @@ class JES(var data : String, var key : String) {
 
         for(index in 1..10){
             val tempSubHexArray = mutableListOf<String>()
+            val roundKeyArray = mutableListOf<String>()
             for (char in initialHexArray){
               val newHex = hexSub(char[0].toString(), char[1].toString())
                 tempSubHexArray.add(newHex)
             }
 
             CollectionUtils<String>().shiftArray(tempSubHexArray)
-            var cc = KeySchedule.scheduler
-            initialHexArray = tempSubHexArray
-            println(tempSubHexArray.joinToString ("-"))
+            val schedule = KeySchedule.scheduler[index]
+            val queue = CollectionUtils<String>().multiDimensionListToQueue(schedule!!)
+            for(value in tempSubHexArray){
+                val valueDecimal = DataFormatUtil.hexToDecimal(value)
+                val poppedHex = queue.remove()!!
+                val poppedHexDecimal = DataFormatUtil.hexToDecimal(poppedHex)
+                val xorResult = valueDecimal xor poppedHexDecimal
+
+                val convertedHex = DataFormatUtil.decimalToHex(xorResult)
+                roundKeyArray.add(convertedHex)
+
+                queue.add(poppedHex)
+            }
+            initialHexArray = roundKeyArray
         }
 
-//       val subbedHexArray = mutableListOf<String>()
-//       for (char in data){
-//           val charArray = Integer.toHexString(char.toInt()).toCharArray()
-//           val newHex = hexSub(charArray[0].toString(), charArray[1].toString())
-//           subbedHexArray.add(newHex)
-//       }
-//       CollectionUtils<String>().shiftArray(subbedHexArray.toTypedArray())
-           return ""
+        return initialHexArray.joinToString ("")
     }
 
     fun decrypt() : String{

@@ -1,9 +1,6 @@
-
-import java.math.BigInteger
-
-
 fun main(args: Array<String>) {
-    JES("this is where it all starts", "thisissparta1234").encrypt()
+    val result = JES("this is where it all starts", "thisissparta1234").encrypt()
+    println(result)
 }
 
 
