@@ -19,7 +19,7 @@ class JES(var data : String, var key : String) {
             initialHexArray.add(hexString)
         }
 
-        for(index in 1..10){
+        for(index in 1..2){
             val tempSubHexArray = mutableListOf<String>()
             val roundKeyArray = mutableListOf<String>()
             for (char in initialHexArray){
@@ -48,20 +48,18 @@ class JES(var data : String, var key : String) {
     }
 
     fun decrypt() : String {
-        val stringToHexList: MutableList<String> = mutableListOf()
+        var stringToHexList: MutableList<String> = mutableListOf()
         for (index in 0 until data.length / 2) {
             val multiplier: Int = 2 * index;
             stringToHexList.add("${data[multiplier]}${data[multiplier + 1]}")
         }
 
-        var final = mutableListOf<String>()
-        for (index in 1..10) {
+        for (index in 1..2) {
             val internalFinal = mutableListOf<String>()
-            val tempSubHexArray = stringToHexList
             val roundKeyArray = mutableListOf<String>()
             val schedule = KeySchedule.scheduler[index]
             val queue = CollectionUtils<String>().multiDimensionListToQueue(schedule!!)
-            for (value in tempSubHexArray) {
+            for (value in stringToHexList) {
                 val valueDecimal = DataFormatUtil.hexToDecimal(value)
                 val poppedHex = queue.remove()!!
                 val poppedHexDecimal = DataFormatUtil.hexToDecimal(poppedHex)
@@ -75,15 +73,14 @@ class JES(var data : String, var key : String) {
 
             CollectionUtils<String>().shiftArrayBackward(roundKeyArray)
 
-            for (char in stringToHexList) {
+            for (char in roundKeyArray) {
                 val newHex = reSubHex(char[0].toString(), char[1].toString())
                 internalFinal.add(newHex)
             }
-            final.clear();
-            final = internalFinal
+            stringToHexList = internalFinal
         }
 
-        return convertHexListToString(final)
+        return convertHexListToString(stringToHexList)
     }
 
     private fun hexSub(row : String, column : String) : String{
