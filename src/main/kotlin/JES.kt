@@ -19,7 +19,7 @@ class JES(var data : String, var key : String) {
             initialHexArray.add(hexString)
         }
 
-        for(index in 1..2){
+        for(index in 1..10){
             val tempSubHexArray = mutableListOf<String>()
             val roundKeyArray = mutableListOf<String>()
             for (char in initialHexArray){
@@ -54,7 +54,7 @@ class JES(var data : String, var key : String) {
             stringToHexList.add("${data[multiplier]}${data[multiplier + 1]}")
         }
 
-        for (index in 1..2) {
+        for (index in 10 downTo 1) {
             val internalFinal = mutableListOf<String>()
             val roundKeyArray = mutableListOf<String>()
             val schedule = KeySchedule.scheduler[index]
