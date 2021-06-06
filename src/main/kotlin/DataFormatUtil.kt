@@ -6,6 +6,10 @@ class DataFormatUtil {
             return hex.toInt(16)
         }
 
+        fun hexToChar(hex: String): Char{
+            return hex.toInt(16).toChar()
+        }
+
         fun decimalToBinary(decimal: Int) : String{
             return Integer.toBinaryString(decimal)
         }

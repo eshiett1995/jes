@@ -47,11 +47,46 @@ class JES(var data : String, var key : String) {
         return initialHexArray.joinToString ("")
     }
 
-    fun decrypt() : String{
-        return ""
+    fun decrypt() : String {
+        val stringToHexList: MutableList<String> = mutableListOf()
+        for (index in 0 until data.length / 2) {
+            val multiplier: Int = 2 * index;
+            stringToHexList.add("${data[multiplier]}${data[multiplier + 1]}")
+        }
+
+        var final = mutableListOf<String>()
+        for (index in 1..10) {
+            val internalFinal = mutableListOf<String>()
+            val tempSubHexArray = stringToHexList
+            val roundKeyArray = mutableListOf<String>()
+            val schedule = KeySchedule.scheduler[index]
+            val queue = CollectionUtils<String>().multiDimensionListToQueue(schedule!!)
+            for (value in tempSubHexArray) {
+                val valueDecimal = DataFormatUtil.hexToDecimal(value)
+                val poppedHex = queue.remove()!!
+                val poppedHexDecimal = DataFormatUtil.hexToDecimal(poppedHex)
+                val xorResult = valueDecimal xor poppedHexDecimal
+
+                val convertedHex = DataFormatUtil.decimalToHex(xorResult)
+                roundKeyArray.add(convertedHex)
+
+                queue.add(poppedHex)
+            }
+
+            CollectionUtils<String>().shiftArrayBackward(roundKeyArray)
+
+            for (char in stringToHexList) {
+                val newHex = reSubHex(char[0].toString(), char[1].toString())
+                internalFinal.add(newHex)
+            }
+            final.clear();
+            final = internalFinal
+        }
+
+        return convertHexListToString(final)
     }
 
-    fun hexSub(row : String, column : String) : String{
+    private fun hexSub(row : String, column : String) : String{
         var c = data;
         val indexOfColumn = Constants.hexMatrix[0].indexOf(column)
         var indexOfRow by Delegates.notNull<Int>()
@@ -64,5 +99,32 @@ class JES(var data : String, var key : String) {
              }
         }
         return Constants.hexMatrix[indexOfRow][indexOfColumn]
+    }
+
+
+    fun reSubHex(row : String, column : String) : String{
+        var foundRowIndex = 0
+        var foundColumnIndex = 0
+        for ((rowIndex,array) in Constants.hexMatrix.withIndex()){
+
+            for ((columnIndex, columnValue) in Constants.hexMatrix[rowIndex].withIndex()){
+                if(row+column == columnValue){
+                    foundRowIndex = rowIndex
+                    foundColumnIndex = columnIndex
+                    break
+                }
+            }
+        }
+        return Constants.hexMatrix[0][foundRowIndex] + Constants.hexMatrix[0][foundColumnIndex]
+    }
+
+    fun convertHexListToString(list: MutableList<String>) : String{
+        var finalString = ""
+
+        for (hex in list){
+            finalString = finalString.plus(DataFormatUtil.hexToChar(hex))
+        }
+
+        return finalString;
     }
 }

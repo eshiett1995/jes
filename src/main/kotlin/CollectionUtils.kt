@@ -15,6 +15,18 @@ class CollectionUtils<T> {
         return array
     }
 
+    fun shiftArrayBackward(array: MutableList<T>) : MutableList<T>{
+        val temp = array[array.size - 1]
+        for (index in array.size.minus(1) downTo 0){
+            if(index != 0){
+                array[index] = array[index - 1]
+            }else{
+                array[index] = temp
+            }
+        }
+        return array
+    }
+
     fun multiDimensionListToQueue(arrays: ArrayList<ArrayList<String>>) : Queue<String>{
         val newList = mutableListOf<String>()
         for (index in 0..arrays.size.minus(1)){
